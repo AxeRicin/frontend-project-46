@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import fileParse from './fileParse.js';
 
-const gendiff = (path1, path2) => {
+const genDiff = (path1, path2) => {
   const file1 = fileParse(path1);
   const file2 = fileParse(path2);
   const keys = _.sortBy(_.uniq([...Object.keys(file1), ...Object.keys(file2)]));
@@ -27,4 +27,4 @@ const gendiff = (path1, path2) => {
   return diff(keys);
 };
 
-export default gendiff;
+export default genDiff;
