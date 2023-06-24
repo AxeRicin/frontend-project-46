@@ -11,8 +11,7 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const parseFixture = (filename) => readFileSync(getFixturePath(filename), 'utf-8').trim();
 
 describe('genDiff', () => {
-  it('should work with flat json', () => {
-    expect.assertions(1);
+  test('should work with flat json', () => {
     const filePath1 = getFixturePath('file1.json');
     const filePath2 = getFixturePath('file2.json');
     const expected = parseFixture('json.txt');
