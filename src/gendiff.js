@@ -2,26 +2,26 @@ import _ from 'lodash';
 import fileParse from './fileParse.js';
 
 const genDiff = (path1, path2) => {
-  const file1 = fileParse(path1);
-  const file2 = fileParse(path2);
-  const keys = _.sortBy(_.uniq([...Object.keys(file1), ...Object.keys(file2)]));
+  const data1 = fileParse(path1);
+  const data2 = fileParse(path2);
+  const keys = _.sortBy(_.uniq([...Object.keys(data1), ...Object.keys(data2)]));
 
-  const diff = (keys) => {
+  const diff = () => {
     const indent = '  ';
-    const result = keys.reduce((acc, key, index) => {
-      if (_.has(file1, key) && _.has(file2, key)) {
-        if (file1[key] === file2[key]) {
-          return `${acc}${indent}  ${key}: ${file1[key]}\n`;
+    const result = keys.reduce((acc, key) => {
+      if (_.has(data1, key) && _.has(data2, key)) {
+        if (data1[key] === data2[key]) {
+          return `${acc}${indent}  ${key}: ${data1[key]}\n`;
         }
-        return `${acc}${indent}- ${key}: ${file1[key]}\n${indent}+ ${key}: ${file2[key]}\n`;
+        return `${acc}${indent}- ${key}: ${data1[key]}\n${indent}+ ${key}: ${data2[key]}\n`;
       }
-      if (_.has(file1, key)) {
-        return `${acc}${indent}- ${key}: ${file1[key]}\n`;
+      if (_.has(data1, key)) {
+        return `${acc}${indent}- ${key}: ${data1[key]}\n`;
       }
-      return `${acc}${indent}+ ${key}: ${file2[key]}\n`;
+      return `${acc}${indent}+ ${key}: ${data2[key]}\n`;
     }, '');
 
-    return `{\n${result}}`
+    return `{\n${result}}`;
   };
 
   return diff(keys);

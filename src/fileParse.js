@@ -1,12 +1,21 @@
 import { readFileSync } from 'node:fs';
-import getPath from './getPath.js';
+import path from 'node:path';
+import { cwd } from 'node:process';
+
+const getPath = (filePath) => path.resolve(cwd(), filePath);
+
+const getFileExtension = (filePath) => path.extname(filePath);
 
 const fileParse = (filePath) => {
-  const file = readFileSync(getPath(filePath), { encoding: 'utf8', flag: 'r' });
-  if (filePath.endsWith('.json')) {
-    return JSON.parse(file);
+  const data = readFileSync(getPath(filePath), 'utf8');
+  const fileExtension = getFileExtension(filePath).slice(1);
+  switch (fileExtension.toLowerCase()) {
+    case 'json':
+      return JSON.parse(data);
+
+    default:
+      throw new Error(`Неверное расширение файла: ${fileExtension}`);
   }
-  return file;
 };
 
 export default fileParse;
