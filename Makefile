@@ -3,7 +3,7 @@ install:
 	npm link
 
 test:
-	npx jest;
+	npx jest --coverage;
 
 test2:
 	gendiff ./__fixtures__/file1.json ./__fixtures__/file2.json
