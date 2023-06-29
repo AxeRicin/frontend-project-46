@@ -1,5 +1,8 @@
 install:
 	npm ci
+
+link:
+	make install
 	npm link
 
 test:
