@@ -11,10 +11,10 @@ test:
 test2:
 	npx jest
 
-testJson:
+testjson:
 	gendiff ./__fixtures__/file1.json ./__fixtures__/file2.json
 
-testYml:
+testyaml:
 	gendiff ./__fixtures__/file1.yaml ./__fixtures__/file2.yaml
 
 publish:

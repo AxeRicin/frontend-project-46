@@ -1,30 +1,40 @@
 import _ from 'lodash';
 import fileParse from './parsers.js';
+import formatter from './formatter/index.js';
 
-const genDiff = (path1, path2) => {
+const findDiff = (data1, data2) => {
+  const keys = _.sortBy(_.uniq([...Object.keys(data1), ...Object.keys(data2)]));
+  const result = keys.reduce((acc, key) => {
+    const oldValue = data1[key];
+    const newValue = data2[key];
+
+    if (_.isPlainObject(oldValue) && _.isPlainObject(newValue)) {
+      return [...acc, { key, value: findDiff(oldValue, newValue), type: 'nested' }];
+    }
+    if (!_.has(data2, key)) {
+      return [...acc, { key, value: oldValue, type: 'deleted' }];
+    }
+    if (!_.has(data1, key)) {
+      return [...acc, { key, value: newValue, type: 'added' }];
+    }
+    if (!_.eq(oldValue, newValue)) {
+      return [...acc, {
+        key, value1: oldValue, value2: newValue, type: 'changed',
+      }];
+    }
+    return [...acc, { key, value: oldValue, type: 'unchanged' }];
+  }, []);
+  return result;
+};
+
+const genDiff = (path1, path2, format = 'stylish') => {
   const data1 = fileParse(path1);
   const data2 = fileParse(path2);
-  const keys = _.sortBy(_.uniq([...Object.keys(data1), ...Object.keys(data2)]));
 
-  const diff = () => {
-    const indent = '  ';
-    const result = keys.reduce((acc, key) => {
-      if (_.has(data1, key) && _.has(data2, key)) {
-        if (data1[key] === data2[key]) {
-          return `${acc}${indent}  ${key}: ${data1[key]}\n`;
-        }
-        return `${acc}${indent}- ${key}: ${data1[key]}\n${indent}+ ${key}: ${data2[key]}\n`;
-      }
-      if (_.has(data1, key)) {
-        return `${acc}${indent}- ${key}: ${data1[key]}\n`;
-      }
-      return `${acc}${indent}+ ${key}: ${data2[key]}\n`;
-    }, '');
+  const diff = findDiff(data1, data2);
 
-    return `{\n${result}}`;
-  };
-
-  return diff(keys);
+  /* return JSON.stringify(diff, null, 2); */
+  return formatter(diff, format);
 };
 
 export default genDiff;
