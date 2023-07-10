@@ -16,8 +16,6 @@ const stringify = (data, depth) => {
 };
 
 const stylish = (diff) => {
-  const specialChars = ['+ ', '- '];
-
   const iter = (tree, depth = 1) => tree.reduce((acc, node, index) => {
     let string = '';
     switch (node.type) {
@@ -26,16 +24,16 @@ const stylish = (diff) => {
         break;
 
       case 'deleted':
-        string = `${acc}${getIndented(depth)}${specialChars[1]}${node.key}: ${stringify(node.value, depth + 1).trim()}\n`;
+        string = `${acc}${getIndented(depth)}- ${node.key}: ${stringify(node.value, depth + 1).trim()}\n`;
         break;
 
       case 'added':
-        string = `${acc}${getIndented(depth)}${specialChars[0]}${node.key}: ${stringify(node.value, depth + 1).trim()}\n`;
+        string = `${acc}${getIndented(depth)}+ ${node.key}: ${stringify(node.value, depth + 1).trim()}\n`;
         break;
 
       case 'changed': {
-        const del = `${acc}${getIndented(depth)}${specialChars[1]}${node.key}: ${stringify(node.value1, depth + 1).trim()}\n`;
-        const add = `${getIndented(depth)}${specialChars[0]}${node.key}: ${stringify(node.value2, depth + 1).trim()}\n`;
+        const del = `${acc}${getIndented(depth)}- ${node.key}: ${stringify(node.value1, depth + 1).trim()}\n`;
+        const add = `${getIndented(depth)}+ ${node.key}: ${stringify(node.value2, depth + 1).trim()}\n`;
         string = del + add;
         break;
       }
