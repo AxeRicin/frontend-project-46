@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "type": "module",
-  "description": "   ",
+  "description": "Specifies the difference between two data structures. Accepts JSON and yaml files. Generates a plain text, stylish and json report.",
   "main": "src/gendiff.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
