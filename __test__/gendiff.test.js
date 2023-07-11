@@ -2,6 +2,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'node:path';
 import { readFileSync } from 'fs';
+import _ from 'lodash';
 import genDiff from '../src/gendiff.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -24,6 +25,12 @@ describe('genDiff', () => {
     const filePath2 = getFixturePath(file2);
     const expected = parseFixture(result);
     expect(genDiff(filePath1, filePath2, formatter)).toEqual(expected);
+  });
+  test('should output the result in JSON format', () => {
+    const filePath1 = getFixturePath('file1.json');
+    const filePath2 = getFixturePath('file2.json');
+    const result = _.isObject(JSON.parse(genDiff(filePath1, filePath2, 'json')));
+    expect(result).toBeTruthy();
   });
   /* test('should throw an error on unknown file format', () => {
     const filePath1 = getFixturePath('file1.json');

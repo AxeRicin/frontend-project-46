@@ -9,6 +9,9 @@ const formatter = (diff, format) => {
     case 'plain':
       return getPlainFormat(diff);
 
+    case 'json':
+      return JSON.stringify(diff);
+
     default:
       throw new Error(`Неверный форматтер: ${format}`);
   }

@@ -32,8 +32,8 @@ const getStylishFormat = (diff) => {
         break;
 
       case 'changed': {
-        const del = `${acc}${getIndented(depth)}- ${node.key}: ${stringify(node.value1, depth + 1).trim()}\n`;
-        const add = `${getIndented(depth)}+ ${node.key}: ${stringify(node.value2, depth + 1).trim()}\n`;
+        const del = `${acc}${getIndented(depth)}- ${node.key}: ${stringify(node.oldValue, depth + 1).trim()}\n`;
+        const add = `${getIndented(depth)}+ ${node.key}: ${stringify(node.newValue, depth + 1).trim()}\n`;
         string = del + add;
         break;
       }

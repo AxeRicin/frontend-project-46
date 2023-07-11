@@ -12,7 +12,7 @@ test2:
 	npx jest
 
 testjson:
-	gendiff ./__fixtures__/file1.json ./__fixtures__/file2.json --format plain
+	gendiff ./__fixtures__/file1.json ./__fixtures__/file2.json --format json
 
 testyaml:
 	gendiff ./__fixtures__/file1.yaml ./__fixtures__/file2.yaml

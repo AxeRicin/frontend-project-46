@@ -14,12 +14,11 @@ const getPlainFormat = (data, path = []) => {
       case 'nested':
         return [...acc, getPlainFormat(node.value, newPath)];
       case 'added':
-        console.log(`${newPath}, ${node.value}`);
         return [...acc, `Property '${newPath.join('.')}' was added with value: ${getValue(node.value)}`];
       case 'deleted':
         return [...acc, `Property '${newPath.join('.')}' was removed`];
       case 'changed':
-        return [...acc, `Property '${newPath.join('.')}' was updated. From ${getValue(node.value1)} to ${getValue(node.value2)}`];
+        return [...acc, `Property '${newPath.join('.')}' was updated. From ${getValue(node.oldValue)} to ${getValue(node.newValue)}`];
 
       case 'unchanged':
         return acc;

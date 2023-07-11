@@ -19,7 +19,7 @@ const findDiff = (data1, data2) => {
     }
     if (!_.eq(oldValue, newValue)) {
       return [...acc, {
-        key, value1: oldValue, value2: newValue, type: 'changed',
+        key, oldValue, newValue, type: 'changed',
       }];
     }
     return [...acc, { key, value: oldValue, type: 'unchanged' }];
