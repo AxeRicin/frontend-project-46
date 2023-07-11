@@ -15,40 +15,30 @@ const stringify = (data, depth) => {
   return `{\n${result.join('\n')}\n${getIndented(depth, 4)}}`;
 };
 
-const getStylishFormat = (diff) => {
-  const iter = (tree, depth = 1) => tree.reduce((acc, node, index) => {
-    let string = '';
+const getStylishFormat = (diff, depth = 1) => {
+  const lines = diff.reduce((acc, node) => {
     switch (node.type) {
       case 'nested':
-        string = `${acc}${getIndented(depth, 0)}${node.key}: ${iter(node.value, depth + 1)}\n`;
-        break;
+        return [...acc, `${getIndented(depth, 0)}${node.key}: ${getStylishFormat(node.value, depth + 1)}`];
 
       case 'deleted':
-        string = `${acc}${getIndented(depth)}- ${node.key}: ${stringify(node.value, depth + 1).trim()}\n`;
-        break;
+        return [...acc, `${getIndented(depth)}- ${node.key}: ${stringify(node.value, depth + 1)}`];
 
       case 'added':
-        string = `${acc}${getIndented(depth)}+ ${node.key}: ${stringify(node.value, depth + 1).trim()}\n`;
-        break;
+        return [...acc, `${getIndented(depth)}+ ${node.key}: ${stringify(node.value, depth + 1)}`];
 
       case 'changed': {
-        const del = `${acc}${getIndented(depth)}- ${node.key}: ${stringify(node.oldValue, depth + 1).trim()}\n`;
-        const add = `${getIndented(depth)}+ ${node.key}: ${stringify(node.newValue, depth + 1).trim()}\n`;
-        string = del + add;
-        break;
+        const del = `${getIndented(depth)}- ${node.key}: ${stringify(node.oldValue, depth + 1)}`;
+        const add = `\n${getIndented(depth)}+ ${node.key}: ${stringify(node.newValue, depth + 1)}`;
+        return [...acc, del + add];
       }
       case 'unchanged':
-        string = `${acc}${getIndented(depth, 0)}${node.key}: ${stringify(node.value, depth + 1).trim()}\n`;
-        break;
+        return [...acc, `${getIndented(depth, 0)}${node.key}: ${stringify(node.value, depth + 1)}`];
       default:
         throw new Error(`Неверный тип узла: ${node.type}`);
     }
-    if (index === tree.length - 1) {
-      return `${string}${getIndented(depth - 1, 0)}}`;
-    }
-    return string;
-  }, '{\n');
-  return iter(diff);
+  }, []);
+  return `{\n${lines.join('\n')}\n${getIndented(depth - 1, 0)}}`;
 };
 
 export default getStylishFormat;
