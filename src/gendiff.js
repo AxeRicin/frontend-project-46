@@ -30,10 +30,8 @@ const findDiff = (data1, data2) => {
 const genDiff = (path1, path2, format = 'stylish') => {
   const data1 = fileParse(path1);
   const data2 = fileParse(path2);
-
   const diff = findDiff(data1, data2);
 
-  /* return JSON.stringify(diff, null, 2); */
   return formatter(diff, format);
 };
 
