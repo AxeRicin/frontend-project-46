@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import fileParse from './parsers.js';
-import formatter from './formatter/index.js';
+import formatter from './formatters/index.js';
 
 const findDiff = (data1, data2) => {
   const keys = _.sortBy(_.uniq([...Object.keys(data1), ...Object.keys(data2)]));

@@ -15,7 +15,7 @@ const stringify = (data, depth) => {
   return `{\n${result.join('\n')}\n${getIndented(depth, 4)}}`;
 };
 
-const stylish = (diff) => {
+const getStylishFormat = (diff) => {
   const iter = (tree, depth = 1) => tree.reduce((acc, node, index) => {
     let string = '';
     switch (node.type) {
@@ -51,4 +51,4 @@ const stylish = (diff) => {
   return iter(diff);
 };
 
-export default stylish;
+export default getStylishFormat;

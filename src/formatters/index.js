@@ -1,9 +1,13 @@
-import stylish from './stylish.js';
+import getPlainFormat from './getPlainFormat.js';
+import getStylishFormat from './getStylishFormat.js';
 
 const formatter = (diff, format) => {
   switch (format) {
     case 'stylish':
-      return stylish(diff);
+      return getStylishFormat(diff);
+
+    case 'plain':
+      return getPlainFormat(diff);
 
     default:
       throw new Error(`Неверный форматтер: ${format}`);
