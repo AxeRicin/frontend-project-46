@@ -11,6 +11,8 @@ const getPlainFormat = (data, path = []) => {
   const result = data.reduce((acc, node) => {
     const newPath = [...path, node.key];
     switch (node.type) {
+      case 'unchanged':
+        return acc;
       case 'nested':
         return [...acc, getPlainFormat(node.value, newPath)];
       case 'added':
@@ -19,8 +21,6 @@ const getPlainFormat = (data, path = []) => {
         return [...acc, `Property '${newPath.join('.')}' was removed`];
       case 'changed':
         return [...acc, `Property '${newPath.join('.')}' was updated. From ${getValue(node.oldValue)} to ${getValue(node.newValue)}`];
-      case 'unchanged':
-        return acc;
       default:
         throw new Error(`Неверный тип узла: ${node.type}`);
     }
