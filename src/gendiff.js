@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { readFileSync } from 'node:fs';
-import path from 'node:path';
+import { readFileSync } from 'fs';
+import path from 'path';
 import formatter from './formatters/index.js';
 import fileParse from './parsers.js';
 
