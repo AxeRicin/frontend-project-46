@@ -10,7 +10,6 @@ const getFileExtension = (filePath) => path.extname(filePath);
 
 const findDiff = (data1, data2) => {
   const keys = _.sortBy(_.uniq([...Object.keys(data1), ...Object.keys(data2)]));
-  console.log(keys);
   const result = keys.map((key) => {
     const oldValue = data1[key];
     const newValue = data2[key];
