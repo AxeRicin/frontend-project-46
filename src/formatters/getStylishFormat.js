@@ -20,13 +20,10 @@ const getStylishFormat = (diff, depth = 1) => {
     switch (node.type) {
       case 'nested':
         return [...acc, `${getIndented(depth, 0)}${node.key}: ${getStylishFormat(node.value, depth + 1)}`];
-
       case 'deleted':
         return [...acc, `${getIndented(depth)}- ${node.key}: ${stringify(node.value, depth + 1)}`];
-
       case 'added':
         return [...acc, `${getIndented(depth)}+ ${node.key}: ${stringify(node.value, depth + 1)}`];
-
       case 'changed': {
         const del = `${getIndented(depth)}- ${node.key}: ${stringify(node.oldValue, depth + 1)}`;
         const add = `\n${getIndented(depth)}+ ${node.key}: ${stringify(node.newValue, depth + 1)}`;
