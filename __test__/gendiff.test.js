@@ -32,9 +32,4 @@ describe('genDiff', () => {
     const result = _.isObject(JSON.parse(genDiff(filePath1, filePath2, 'json')));
     expect(result).toBeTruthy();
   });
-  /* test('should throw an error on unknown file format', () => {
-    const filePath1 = getFixturePath('file1.json');
-    const filePath2 = getFixturePath('file1.darthvader');
-    expect(genDiff(filePath1, filePath2)).toThrow(/darthvader/);
-  }); */
 });
