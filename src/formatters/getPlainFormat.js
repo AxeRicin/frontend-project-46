@@ -8,25 +8,25 @@ const getValue = (value) => {
 };
 
 const getPlainFormat = (data, path = []) => {
-  const result = data.reduce((acc, node) => {
+  const result = data.map((node) => {
     const newPath = [...path, node.key];
     switch (node.type) {
       case 'unchanged':
-        return acc;
+        return '';
       case 'nested':
-        return [...acc, getPlainFormat(node.value, newPath)];
+        return getPlainFormat(node.value, newPath);
       case 'added':
-        return [...acc, `Property '${newPath.join('.')}' was added with value: ${getValue(node.value)}`];
+        return `Property '${newPath.join('.')}' was added with value: ${getValue(node.value)}`;
       case 'deleted':
-        return [...acc, `Property '${newPath.join('.')}' was removed`];
+        return `Property '${newPath.join('.')}' was removed`;
       case 'changed':
-        return [...acc, `Property '${newPath.join('.')}' was updated. From ${getValue(node.oldValue)} to ${getValue(node.newValue)}`];
+        return `Property '${newPath.join('.')}' was updated. From ${getValue(node.oldValue)} to ${getValue(node.newValue)}`;
       default:
         throw new Error(`Неверный тип узла: ${node.type}`);
     }
-  }, []);
+  });
 
-  return result.join('\n');
+  return result.filter((str) => str !== '').join('\n');
 };
 
 export default getPlainFormat;
