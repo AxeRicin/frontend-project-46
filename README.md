@@ -47,6 +47,7 @@ gendiff filepath1.json filepath2.json
 * Make sure you have installed Node.js version 12 and above.
 * Clone or download this repository.
 * While in the local directory of the project, use the command `make install` or `make link`.
+* `gendiff <filepath1> <filepath2>` to find differences.
 
 ## Demonstration of work
 
