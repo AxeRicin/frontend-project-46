@@ -11,8 +11,8 @@ const getFileExtension = (filePath) => path.extname(filePath);
 const findDiff = (data1, data2) => {
   const keys = _.sortBy(_.uniq([...Object.keys(data1), ...Object.keys(data2)]));
   const result = keys.map((key) => {
-    const oldValue = data1[key];
-    const newValue = data2[key];
+    const { [key]: oldValue } = data1;
+    const { [key]: newValue } = data2;
 
     if (_.isPlainObject(oldValue) && _.isPlainObject(newValue)) {
       return { key, value: findDiff(oldValue, newValue), type: 'nested' };
